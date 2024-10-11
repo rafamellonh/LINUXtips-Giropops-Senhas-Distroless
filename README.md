@@ -1,64 +1,65 @@
-# LINUXtips-Giropops-Senhas-Distroless
 
-Este repositório contém um Dockerfile que configura uma aplicação Flask com um ambiente Python e integração com o Redis. Abaixo, você encontrará instruções sobre como clonar o repositório, construir a imagem Docker e executar os contêineres necessários.
+# LINUXtips-Giropops-Passwords-Distroless
 
-## Pré-requisitos
+This repository contains a Dockerfile that sets up a Flask application with a Python environment and integration with Redis. It is a password creation application. Below, you will find instructions on how to clone the repository, build the Docker image, and run the necessary containers.
 
-- Docker instalado em seu sistema.
-- Acesso à internet para baixar as imagens necessárias.
+## Prerequisites
 
-## Como Usar
+- Docker installed on your system.
+- Internet access to download the necessary images.
 
-### 1. Clonar o Repositório
+## How to Use
 
-Clone o repositório usando o seguinte comando:
+### 1. Clone the Repository
+
+Clone the repository using the following command:
 
 ```bash
 git clone https://github.com/rafamellonh/LINUXtips-Giropops-Senhas-Distroless.git
 cd LINUXtips-Giropops-Senhas-Distroless
 ```
 
-### 2. Montar a Imagem Docker
+### 2. Build the Docker Image
 
-Execute o seguinte comando para construir a imagem Docker:
-
-```bash
-docker --debug image build -t linuxtips-giropops-senhas-distroless:1.0 .
-```
-
-### 3. Criar o Contêiner do Redis
-
-Antes de executar a aplicação Flask, você precisa criar um contêiner para o Redis. Altere o IP da variável `-e REDIS_HOST` para o IP correspondente à sua rede local. Execute:
+Run the following command to build the Docker image:
 
 ```bash
-docker container run -d --name redis -p 6379:6379 -e REDIS_HOST=192.168.1.171 redis
+docker --debug image build -t linuxtips-giropops-passwords-distroless:1.0 .
 ```
 
-### 4. Criar o Contêiner a partir da Imagem
+### 3. Create the Redis Container
 
-Agora você pode criar um contêiner a partir da imagem que você acabou de construir. Execute:
+Before running the Flask application, you need to create a container for Redis. Change the IP in the `-e REDIS_HOST` variable to the IP corresponding to your local network. Run:
 
 ```bash
-docker container run -d --name tst -p 5000:5000 --env REDIS_HOST=192.168.1.171 linuxtips-giropops-senhas-distroless:1.0
+docker container run -d --name redis -p 6379:6379 -e REDIS_HOST=172.16.0.10 redis
 ```
 
-### 5. Acessar a Aplicação
+### 4. Create the Container from the Image
 
-Depois que o contêiner da aplicação estiver em execução, você pode acessá-la em seu navegador usando o seguinte endereço:
+Now you can create a container from the image you just built. Run:
+
+```bash
+docker container run -d --name passwords-distroless -p 5000:5000 --env REDIS_HOST=172.16.0.10 linuxtips-giropops-passwords-distroless:1.0
+```
+
+### 5. Access the Application
+
+Once the application container is running, you can access it in your browser using the address of your container:
 
 ```
-http://localhost:5000
+http://IP:5000
 ```
 
-### Observações
+### Notes
 
-- Certifique-se de que o Redis está em execução antes de iniciar a aplicação Flask.
-- O Redis deve estar acessível pelo IP que você configurou na variável de ambiente `REDIS_HOST`.
+- Ensure that Redis is running before starting the Flask application.
+- Redis should be accessible via the IP you configured in the `REDIS_HOST` environment variable.
 
-## Contribuição
+## Contribution
 
-Se você gostaria de contribuir para este projeto, fique à vontade para abrir uma *issue* ou enviar um *pull request*!
+If you would like to contribute to this project, feel free to open an issue or submit a pull request!
 
-## Licença
+## License
 
-Este projeto é licenciado sob a [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
