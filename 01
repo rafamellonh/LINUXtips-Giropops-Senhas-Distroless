@@ -1,0 +1,44 @@
+# https://images.chainguard.dev/
+
+FROM cgr.dev/chainguard/python:latest-dev AS buildando
+#FROM python:3.11.4-alpine3.18
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM cgr.dev/chainguard/python:latest
+WORKDIR /app
+COPY --from=buildando /home/nonroot/.local/lib/python3.12/site-packages /home/nonroot/.local/lib/python3.12/site-packages
+COPY app.py .
+COPY templates templates/
+COPY static static/
+
+CMD [ "flask", "run", "--host=0.0.0.0" ]
+
+
+
+#CMD redis-server --daemonize yes && flask run --host=0.0.0.0
+
+#ENTRYPOINT ["python", "app.py"]
+#ENTRYPOINT ["flask", "run", "--host=0.0.0.0"]
+
+
+#CMD [ "python", "-m", "flask", "run", "--host=0.0.0.0" ]
+#ENTRYPOINT python -m flask run --host=0.0.0.0
+
+
+
+#       docker rm -f $(docker ps -a -q) && docker rmi -f $(docker images -q)
+#       docker rmi -f $(docker images -q)
+#docker container run -d --name tst  -p 5000:5000 --env REDIS_HOST=192.168.1.171 image:1.0
+#  docker --debug image build -t image:1.0 .
+
+
+
+#       docker rm -f $(docker ps -a -q) && docker rmi -f $(docker images -q)
+#       docker rmi -f $(docker images -q)
+#       docker container run -d --name tst  -p 5000:5000 --env REDIS_HOST=192.168.1.171 image:1.0
+#       docker --debug image build -t image:1.0 .
+
+#   docker container run -d --name redis -p 6379:6379 -e REDIS_HOST=192.168.1.171 redis

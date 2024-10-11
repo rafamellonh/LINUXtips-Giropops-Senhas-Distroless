@@ -1,0 +1,20 @@
+FROM cgr.dev/chainguard/python:latest-dev
+
+#FROM cgr.dev/chainguard/python:latest-dev AS buildando
+#FROM python:3.11.4-alpine3.18
+
+COPY . /app
+WORKDIR /app
+
+RUN ls -l /app
+
+
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 5000
+
+
+CMD ["python3", "app.py"]
+
+
+#       docker rm -f $(docker ps -a -q) && docker rmi -f $(docker images -q)
+#       docker rmi -f $(docker images -q)

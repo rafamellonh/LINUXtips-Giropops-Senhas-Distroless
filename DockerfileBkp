@@ -1,0 +1,30 @@
+FROM python:slim AS buildando
+
+#FROM cgr.dev/chainguard/python:latest-dev AS buildando
+#FROM python:3.11.4-alpine3.18
+
+COPY . /app
+WORKDIR /app
+
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+#FROM cgr.dev/chainguard/python:latest
+
+FROM gcr.io/distroless/python3
+
+COPY --from=buildando /app /app
+COPY --from=buildando /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+ENV PYTHONPATH=/usr/local/lib/python3.12/site-packages \
+FLASK_APP=app.py
+
+WORKDIR /app
+EXPOSE 5000
+
+
+#CMD [ "python", "-m", "flask", "run", "--host=0.0.0.0" ]
+ENTRYPOINT python -m flask run --host=0.0.0.0
+
+
+
+#       docker rm -f $(docker ps -a -q) && docker rmi -f $(docker images -q)
+#       docker rmi -f $(docker images -q)
