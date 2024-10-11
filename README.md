@@ -4,7 +4,7 @@
 This repository contains a Dockerfile that sets up a Flask application with a Python environment and integration with Redis. It is a password creation application. Below, you will find instructions on how to clone the repository, build the Docker image, and run the necessary containers.
 
 
-[](/static/passwords.png)
+![](/static/passwords.png)
 
 
 ## Prerequisites
